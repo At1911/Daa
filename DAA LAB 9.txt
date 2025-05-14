@@ -1,0 +1,39 @@
+
+#AIM: Find the Minimum Spanning Tree (MST) of the connected, weighted, undirected graph using #Prim’s
+#Algorithm. Show the order in which nodes are added to the MST and the corresponding edge #weights at
+#each step.
+#CODE:
+import heapq
+graph = {
+'A': [('B', 2), ('C', 3)],
+'B': [('A', 2), ('C', 1), ('D', 6)],
+'C': [('A', 3), ('B', 1), ('D', 8)],
+'D': [('B', 6), ('C', 8)]
+}
+def prims_algorithm(graph, start):
+visited = set()
+min_heap = []
+mst = []
+total_weight = 0
+visited.add(start)
+for neighbor, weight in graph[start]:
+heapq.heappush(min_heap, (weight, start, neighbor))
+print(f"Start at: {start}")
+while min_heap:
+weight, from_node, to_node = heapq.heappop(min_heap)
+if to_node not in visited:
+visited.add(to_node)
+mst.append((from_node, to_node, weight))
+total_weight += weight
+print(f"Add edge {from_node} - {to_node} {weight}")
+for neighbor, w in graph[to_node]:
+if neighbor not in visited:
+heapq.heappush(min_heap, (w, to_node, neighbor))
+print("\nMinimum Spanning Tree Edges:")
+for edge in mst:
+print(f"{edge[0]} - {edge[1]} (Weight {edge[2]})")
+print(f"\nTotal Weight of MST: {total_weight}")
+
+prims_algorithm(graph, 'A')
+
+

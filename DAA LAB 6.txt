@@ -1,0 +1,70 @@
+#AIM: Implement Quick Sort using the Divide and conquer approach while ensuring an average-#case time
+#complexity of O(n log n). Optimize the algorithm to prevent the worst-case O(n²) complexity. #Print
+#number of comparisons and number of swaps taken in each iteration/pass.
+CODE:
+import random
+
+def partition(arr, low, high):
+
+pivot_index = random.randint(low, high)
+
+arr[high], arr[pivot_index] = arr[pivot_index], arr[high]
+pivot = arr[high]
+i = low - 1
+
+comparisons = 0
+swaps = 1
+
+for j in range(low, high):
+comparisons += 1
+
+if arr[j] < pivot:
+i += 1
+
+arr[i], arr[j] = arr[j], arr[i]
+swaps += 1
+
+arr[i + 1], arr[high] = arr[high], arr[i + 1]
+swaps += 1
+
+return i + 1, comparisons, swaps
+def quick_sort(arr, low, high, total_comparisons=0, total_swaps=0,
+iteration=1):
+
+if low < high:
+
+pi, comparisons, swaps = partition(arr, low, high)
+
+print(f"Iteration {iteration}: Comparisons = {comparisons}, Swaps =
+
+{swaps}")
+
+total_comparisons += comparisons
+
+total_swaps += swaps
+iteration += 1
+
+total_comparisons, total_swaps, iteration = quick_sort(arr, low, pi
+
+- 1, total_comparisons, total_swaps, iteration)
+
+total_comparisons, total_swaps, iteration = quick_sort(arr, pi + 1,
+
+high, total_comparisons, total_swaps, iteration)
+
+return total_comparisons, total_swaps, iteration
+
+def quick_sort_with_stats(arr):
+
+total_comparisons, total_swaps, _ = quick_sort(arr, 0, len(arr) - 1)
+print(f"Sorted Array: {arr}")
+
+print(f"Total Comparisons: {total_comparisons}")
+print(f"Total Swaps: {total_swaps}")
+arr = [10, 7, 8, 9, 1, 5]
+
+print(f"Original Array: {arr}")
+quick_sort_with_stats(arr)
+
+
+

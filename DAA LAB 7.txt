@@ -1,0 +1,84 @@
+#Aim:Traverse any given graph using Breadth First Search (BFS).
+#Code:
+from collections import defaultdict, deque
+class Graph:
+def __init__(self,
+directed=False):
+self.graph =
+defaultdict(list)
+self.directed =
+directed
+def add_edge(self, u, v):
+self.graph[u].append(v)
+if not
+self.directed:
+self.graph[v].append(u)
+def bfs(self, start):
+visited = set()
+queue
+= deque([start])
+traversal = []
+while
+queue:
+node = queue.popleft()
+
+if node not in visited:
+traversal.append(node)
+visited.add(node)
+for
+neighbor in self.graph[node]:
+if neighbor not in visited:
+queue.append(neighbor)
+return
+traversal, visited
+def
+bfs_disconnected(self, start):
+visited =
+set()
+components = []
+nodes_visited = 0
+if start not in visited:
+component, new_visited =
+self.bfs(start)
+components.append(component)
+visited.update(new_visited)
+
+nodes_visited += len(component)
+for
+node in self.graph.keys():
+if
+node not in visited:
+component, new_visited =
+self.bfs(node)
+components.append(component)
+visited.update(new_visited)
+nodes_visited += len(component)
+return components,
+nodes_visited def input_graph():
+n = int(input("Enter the number of edges: "))
+directed = input("Is
+the graph directed? (yes/no): ").strip().lower() == 'yes'
+g=
+Graph(directed)
+for _ in range(n):
+u, v = map(int,
+input("Enter edge (u v): ").split())
+g.add_edge(u, v)
+return g
+def main():
+g = input_graph()
+start_node = int(input("Enter the starting
+node for BFS traversal: "))
+components, nodes_visited =
+g.bfs_disconnected(start_node)
+print("\nBFS Traversal Order for
+each connected component:")
+for idx, component in
+enumerate(components, 1):
+print(f"Component {idx}: {' -> '.join(map(str,
+component))}")
+print(f"\nTotal number of nodes visited:
+{nodes_visited}") if __name__ == "__main__":
+main()
+
+
