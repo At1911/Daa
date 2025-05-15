@@ -1,7 +1,4 @@
-DAA LAB-10
-NAME :Anushri Thakre
-ROLL.NO :242011060
-AIM: Find the shortest path in a graph with negative edge weights using Bellman-Ford algorithm.
+
 CODE:
 class Graph:
 def __init__(self, vertices):
@@ -35,6 +32,6 @@ g.add_edge(1, 3, 2)
 g.add_edge(2, 3, 4)
 g.add_edge(4, 3, -5)
 g.bellman_ford(0)
-OUTPUT:
+
 
 
