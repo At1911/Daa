@@ -1,28 +1,26 @@
+# AIM : Traverse any given graph using Depth First Search (DFS).
 
-#AIM : Traverse any given graph using Depth First Search (DFS).
-#CODE # DEPTH FIRST SEARCH
-graph = { '5' : ['3','7'],
-'3' : ['2', '4'],
-'7' : ['8'],
-'2' : [],
-'4' : ['8'],
-'8' : [] }
-visited = set() path=[] def
-dfs(visited, graph, node):
+# CODE - DEPTH FIRST SEARCH
+graph = {
+    '5': ['3', '7'],
+    '3': ['2', '4'],
+    '7': ['8'],
+    '2': [],
+    '4': ['8'],
+    '8': []
+}
 
-if
+visited = set()
+path = []
 
-node not in visited:
-path.append(node)
-print(node ,end=" ")
-visited.add(node)
+def dfs(visited, graph, node):
+    if node not in visited:
+        path.append(node)
+        print(node, end=" ")
+        visited.add(node)
 
-for
+        for neighbour in graph[node]:
+            dfs(visited, graph, neighbour)
 
-neighbour in graph[node]:
-dfs(visited,graph,neighbour)
 print("Path using DFS:")
 dfs(visited, graph, '5')
-
-
-
