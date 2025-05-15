@@ -1,26 +1,39 @@
-# AIM : Traverse any given graph using Depth First Search (DFS).
+# DFS Function
+def dfs(visited, graph, node, path):
+    if node not in visited:
+        print(node, end=" ")
+        visited.add(node)
+        path.append(node)
 
-# CODE - DEPTH FIRST SEARCH
+        for neighbour in graph.get(node, []):
+            dfs(visited, graph, neighbour, path)
+
+# Example graph (can be disconnected)
 graph = {
     '5': ['3', '7'],
     '3': ['2', '4'],
     '7': ['8'],
     '2': [],
     '4': ['8'],
-    '8': []
+    '8': [],
+    '10': ['11'],  # Disconnected component
+    '11': []
 }
 
 visited = set()
 path = []
 
-def dfs(visited, graph, node):
+# Input source node
+source = input("Enter source node: ")
+
+# Run DFS from source node
+print("\nDFS Traversal Order from source node:")
+dfs(visited, graph, source, path)
+
+# If graph is disconnected, visit remaining nodes
+for node in graph:
     if node not in visited:
-        path.append(node)
-        print(node, end=" ")
-        visited.add(node)
+        dfs(visited, graph, node, path)
 
-        for neighbour in graph[node]:
-            dfs(visited, graph, neighbour)
-
-print("Path using DFS:")
-dfs(visited, graph, '5')
+print(f"\n\nTotal nodes visited: {len(path)}")
+print(f"DFS Path: {path}")
