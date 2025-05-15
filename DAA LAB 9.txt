@@ -1,39 +1,46 @@
-
-#AIM: Find the Minimum Spanning Tree (MST) of the connected, weighted, undirected graph using #Prim’s
-#Algorithm. Show the order in which nodes are added to the MST and the corresponding edge #weights at
-#each step.
-#CODE:
 import heapq
-graph = {
-'A': [('B', 2), ('C', 3)],
-'B': [('A', 2), ('C', 1), ('D', 6)],
-'C': [('A', 3), ('B', 1), ('D', 8)],
-'D': [('B', 6), ('C', 8)]
-}
-def prims_algorithm(graph, start):
-visited = set()
-min_heap = []
-mst = []
-total_weight = 0
-visited.add(start)
-for neighbor, weight in graph[start]:
-heapq.heappush(min_heap, (weight, start, neighbor))
-print(f"Start at: {start}")
-while min_heap:
-weight, from_node, to_node = heapq.heappop(min_heap)
-if to_node not in visited:
-visited.add(to_node)
-mst.append((from_node, to_node, weight))
-total_weight += weight
-print(f"Add edge {from_node} - {to_node} {weight}")
-for neighbor, w in graph[to_node]:
-if neighbor not in visited:
-heapq.heappush(min_heap, (w, to_node, neighbor))
-print("\nMinimum Spanning Tree Edges:")
-for edge in mst:
-print(f"{edge[0]} - {edge[1]} (Weight {edge[2]})")
-print(f"\nTotal Weight of MST: {total_weight}")
 
-prims_algorithm(graph, 'A')
+def dijkstra(graph, start):
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    
+    priority_queue = [(0, start)]  # (distance, node)
+    
+    while priority_queue:
+        current_distance, current_node = heapq.heappop(priority_queue)
+        
+        if current_distance > distances[current_node]:
+            continue
+        
+        for neighbor, weight in graph[current_node]:
+            distance = current_distance + weight
+            
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(priority_queue, (distance, neighbor))
+    
+    return distances
 
-
+def main():
+    # Example graph as adjacency list (undirected)
+    # Each key is a node, values are (neighbor, weight)
+    graph = {
+        '1': [('2', 2), ('3', 5)],
+        '2': [('1', 2), ('3', 6), ('4', 1)],
+        '3': [('1', 5), ('2', 6), ('4', 2)],
+        '4': [('2', 1), ('3', 2)]
+    }
+    
+    source = '1'
+    distances = dijkstra(graph, source)
+    
+    print(f"Shortest distances from node {source}:")
+    for node in sorted(graph.keys()):
+        dist = distances[node]
+        if dist == float('inf'):
+            print(f"Node {node}: unreachable")
+        else:
+            print(f"Node {node}: {dist}")
+
+if __name__ == "__main__":
+    main()
